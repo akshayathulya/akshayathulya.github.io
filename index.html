@@ -5,8 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Athulya &amp; Akshay · 15 November 2026</title>
 <meta name="description" content="You are cordially invited to the wedding of Athulya Asok with Akshay K Purushan, Sunday 15 November 2026, Sree Bhadra Auditorium, Arayankavu.">
-<meta property="og:title" content="Athulya & Akshay — Wedding Invitation">
-<meta property="og:description" content="Sunday, 15th November 2026 · Sree Bhadra Auditorium, Arayankavu">
+<meta name="theme-color" content="#fdf3f4">
+<link rel="canonical" href="https://akshayathulya.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Athulya &amp; Akshay — Wedding Invitation">
+<meta property="og:title" content="Athulya &amp; Akshay — Wedding Invitation">
+<meta property="og:description" content="Join us to celebrate the wedding of Athulya Asok and Akshay K Purushan on Sunday, 15 November 2026 at Sree Bhadra Auditorium, Arayankavu.">
+<meta property="og:url" content="https://akshayathulya.github.io/">
+<meta property="og:image" content="https://akshayathulya.github.io/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Athulya and Akshay's wedding invitation, Sunday 15 November 2026 at Sree Bhadra Auditorium, Arayankavu">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Athulya &amp; Akshay — Wedding Invitation">
+<meta name="twitter:description" content="Join us to celebrate the wedding of Athulya Asok and Akshay K Purushan on Sunday, 15 November 2026 at Sree Bhadra Auditorium, Arayankavu.">
+<meta name="twitter:image" content="https://akshayathulya.github.io/og-image.png">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪷</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,6 +43,7 @@ background:radial-gradient(60% 80% at 20% 0,#f2a0ae 0,transparent 70%),radial-gr
 .card{background:rgba(255,255,255,.7);backdrop-filter:blur(6px);border:1px solid #f4d3d8;border-radius:1.25rem}
 .btn{display:inline-flex;gap:.5rem;align-items:center;padding:.7rem 1.4rem;border-radius:999px;border:1px solid #5f7355;transition:.3s}
 .btn:hover{background:#5f7355;color:#fff}
+.btn:focus-visible{outline:3px solid #d4798c;outline-offset:3px}
 .rv{opacity:0;transform:translateY(30px)}
 .door{position:absolute;top:0;bottom:0;width:50%;background:linear-gradient(#f9d3d9,#fff)}
 .door.l{left:0}.door.r{right:0}
@@ -52,8 +68,8 @@ background:radial-gradient(60% 80% at 20% 0,#f2a0ae 0,transparent 70%),radial-gr
 </div>
 <div id="bar" class="fixed top-0 left-0 h-[3px] w-full bg-rose z-[60]" style="transform:scaleX(0);transform-origin:0 50%"></div>
 
-<audio id="bgm" src="music.mp3" loop preload="auto"></audio>
-<button id="mute" aria-label="Toggle music" class="fixed right-4 top-4 z-40 w-11 h-11 rounded-full card grid place-items-center text-xl">♪</button>
+<audio id="bgm" loop preload="none"><source src="music.mp3" type="audio/mpeg"></audio>
+<button id="mute" type="button" aria-label="Play background music" aria-pressed="false" class="fixed right-4 top-4 z-40 w-11 h-11 rounded-full card grid place-items-center text-xl">🔇</button>
 
 <!-- HERO -->
 <section class="relative min-h-screen flex flex-col items-center justify-center text-center px-4" id="hero">
@@ -105,7 +121,11 @@ background:radial-gradient(60% 80% at 20% 0,#f2a0ae 0,transparent 70%),radial-gr
       <div class="text-4xl mb-2">📍</div>
       <p class="tracking-widest text-xl">SREE BHADRA AUDITORIUM</p>
       <p class="text-sand tracking-widest">ARAYANKAVU</p>
-      <a class="btn mt-5" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Sree+Bhadra+Auditorium+Arayankavu">Open in Maps</a>
+      <a class="btn mt-5" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sree+Bhadra+Auditorium+Arayankavu">Open in Maps</a>
+      <a class="mt-5 inline-flex flex-col items-center gap-2 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-rose" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Sree+Bhadra+Auditorium+Arayankavu">
+        <img src="location-qr.png" width="160" height="160" alt="Scan to open Sree Bhadra Auditorium, Arayankavu, in Google Maps" class="rounded-lg bg-white p-2">
+        <span class="text-sm text-sand">Scan for directions</span>
+      </a>
     </div>
     <div class="rv card p-8">
       <div class="text-4xl mb-2">🕙</div>
@@ -126,7 +146,9 @@ background:radial-gradient(60% 80% at 20% 0,#f2a0ae 0,transparent 70%),radial-gr
     <a class="btn" href="tel:+919495425034">📞 9495425034</a>
     <a class="btn" href="tel:+917510613393">📞 7510613393</a>
     <a class="btn" target="_blank" rel="noopener" href="https://wa.me/919495425034?text=Hi%2C%20we%20will%20be%20attending%20Athulya%20%26%20Akshay's%20wedding%20on%2015th%20November!">💬 RSVP on WhatsApp</a>
+    <button id="share" type="button" class="btn">Share invitation</button>
   </div>
+  <p id="share-status" class="mt-3 text-sm text-sand" role="status" aria-live="polite"></p>
   <p class="rv mt-10 names text-5xl">With love &amp; blessings</p>
   <svg class="absolute bottom-0 left-0 w-full h-28" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
     <path d="M0 120V60c120-30 220 0 340 15s220 15 340-10 220-25 340 5 140 20 180 5v45z" fill="#cfe5b8" opacity=".7"/>
@@ -142,11 +164,29 @@ const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const hover=matchMedia('(hover: hover)').matches;
 const $=s=>document.querySelector(s),$$=s=>gsap.utils.toArray(s);
 const bgm=$('#bgm'),mute=$('#mute');let playing=false;
-const icon=()=>mute.textContent=playing?'♪':'🔇';
-function play(){bgm.volume=0;bgm.play().then(()=>{playing=true;icon();gsap.to(bgm,{volume:.55,duration:3})}).catch(()=>{playing=false;icon()})}
+const icon=()=>{mute.textContent=playing?'♪':'🔇';mute.setAttribute('aria-label',playing?'Pause background music':'Play background music');mute.setAttribute('aria-pressed',String(playing));mute.removeAttribute('title')};
+function play(){bgm.volume=0;bgm.play().then(()=>{playing=true;icon();gsap.to(bgm,{volume:.55,duration:3})}).catch(error=>{playing=false;icon();mute.setAttribute('aria-label','Background music unavailable. Try again');mute.title='Background music could not be played. Check your connection and try again.';console.error('Background music playback failed:',error)})}
 function stop(){playing=false;icon();gsap.to(bgm,{volume:0,duration:.6,onComplete:()=>bgm.pause()})}
 mute.onclick=()=>playing?stop():play();
 document.addEventListener('visibilitychange',()=>{if(!playing)return;document.hidden?bgm.pause():bgm.play()});
+
+$('#share').onclick=async()=>{
+  const status=$('#share-status');
+  try{
+    if(navigator.share){
+      await navigator.share({title:document.title,text:'Join us for the wedding of Athulya & Akshay on 15 November 2026.',url:location.href});
+      status.textContent='Thanks for sharing!';
+    }else if(navigator.clipboard){
+      await navigator.clipboard.writeText(location.href);
+      status.textContent='Invitation link copied.';
+    }else{
+      throw new Error('Sharing and clipboard access are unavailable.');
+    }
+  }catch(error){
+    if(error.name==='AbortError')return;
+    status.textContent='Could not share automatically. Copy the invitation link from your browser address bar.';
+  }
+};
 
 const HID='inset(-30% 100% -30% -10%)',SHOW='inset(-30% -10% -30% -10%)';
 
@@ -255,7 +295,7 @@ $('#ics').onclick=()=>{
   'SUMMARY:Wedding of Athulya & Akshay','LOCATION:Sree Bhadra Auditorium\\, Arayankavu',
   'DESCRIPTION:Muhurtham 10.00 AM & 10.30 AM. Followed by lunch.','END:VEVENT','END:VCALENDAR'].join('\r\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));
-  a.download='athulya-akshay-wedding.ics';a.click();
+  a.download='athulya-akshay-wedding.ics';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 };
 </script>
 </body>
