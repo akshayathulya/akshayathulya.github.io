@@ -29,18 +29,28 @@ background:radial-gradient(60% 80% at 20% 0,#f2a0ae 0,transparent 70%),radial-gr
 .btn{display:inline-flex;gap:.5rem;align-items:center;padding:.7rem 1.4rem;border-radius:999px;border:1px solid #5f7355;transition:.3s}
 .btn:hover{background:#5f7355;color:#fff}
 .rv{opacity:0;transform:translateY(30px)}
-#gate{background:linear-gradient(#f9d3d9,#fff)}
+.door{position:absolute;top:0;bottom:0;width:50%;background:linear-gradient(#f9d3d9,#fff)}
+.door.l{left:0}.door.r{right:0}
+.sp{position:absolute;border-radius:50%;background:radial-gradient(#fff,#f7d9a8 60%,transparent);pointer-events:none}
+.petal{will-change:transform}
 </style>
 </head>
 <body>
 
-<!-- Entry gate (also unlocks audio autoplay) -->
-<div id="gate" class="fixed inset-0 z-50 flex flex-col items-center justify-center text-center px-6">
-  <div class="text-6xl mb-4">🪷</div>
-  <p class="tracking-[.3em] text-sm text-sand">YOU ARE INVITED</p>
-  <h1 class="names text-7xl sm:text-8xl my-4">Athulya <span class="amp">&amp;</span> Akshay</h1>
-  <button id="open" class="btn mt-6 text-lg">Open Invitation</button>
+<!-- Entry gate -->
+<div id="gate" class="fixed inset-0 z-50">
+  <div class="door l"></div><div class="door r"></div>
+  <div id="gc" class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+    <svg id="lotus" viewBox="0 0 120 100" class="w-28 h-24 mb-2" aria-hidden="true">
+      <defs><linearGradient id="pg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7b6c2"/><stop offset="1" stop-color="#ec8fa0"/></linearGradient></defs>
+      <g fill="url(#pg)" stroke="#fff" stroke-width="1.2" stroke-opacity=".7"><path class="lp" d="M60 92C38 62 44 24 60 6c16 18 22 56 0 86z"/><path class="lp" d="M60 92C38 62 44 24 60 6c16 18 22 56 0 86z"/><path class="lp" d="M60 92C38 62 44 24 60 6c16 18 22 56 0 86z"/><path class="lp" d="M60 92C38 62 44 24 60 6c16 18 22 56 0 86z"/><path class="lp" d="M60 92C38 62 44 24 60 6c16 18 22 56 0 86z"/></g>
+    </svg>
+    <p class="tracking-[.3em] text-sm text-sand">YOU ARE INVITED</p>
+    <h1 class="names text-7xl sm:text-8xl my-4">Athulya <span class="amp">&amp;</span> Akshay</h1>
+    <button id="open" class="btn mt-6 text-lg">Open Invitation</button>
+  </div>
 </div>
+<div id="bar" class="fixed top-0 left-0 h-[3px] w-full bg-rose z-[60]" style="transform:scaleX(0);transform-origin:0 50%"></div>
 
 <audio id="bgm" src="music.mp3" loop preload="auto"></audio>
 <button id="mute" aria-label="Toggle music" class="fixed right-4 top-4 z-40 w-11 h-11 rounded-full card grid place-items-center text-xl">♪</button>
@@ -129,49 +139,118 @@ background:radial-gradient(60% 80% at 20% 0,#f2a0ae 0,transparent 70%),radial-gr
 <script>
 gsap.registerPlugin(ScrollTrigger);
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const bgm=document.getElementById('bgm'),mute=document.getElementById('mute');
-let playing=false;
-const setIcon=()=>mute.textContent=playing?'♪':'🔇';
-function play(){bgm.volume=.5;bgm.play().then(()=>{playing=true;setIcon()}).catch(()=>{playing=false;setIcon()})}
-mute.onclick=()=>{playing?(bgm.pause(),playing=false):play();setIcon()};
+const hover=matchMedia('(hover: hover)').matches;
+const $=s=>document.querySelector(s),$$=s=>gsap.utils.toArray(s);
+const bgm=$('#bgm'),mute=$('#mute');let playing=false;
+const icon=()=>mute.textContent=playing?'♪':'🔇';
+function play(){bgm.volume=0;bgm.play().then(()=>{playing=true;icon();gsap.to(bgm,{volume:.55,duration:3})}).catch(()=>{playing=false;icon()})}
+function stop(){playing=false;icon();gsap.to(bgm,{volume:0,duration:.6,onComplete:()=>bgm.pause()})}
+mute.onclick=()=>playing?stop():play();
+document.addEventListener('visibilitychange',()=>{if(!playing)return;document.hidden?bgm.pause():bgm.play()});
 
-// Opening
-document.getElementById('open').onclick=()=>{
-  play();
-  gsap.to('#gate',{opacity:0,duration:1,onComplete:()=>document.getElementById('gate').remove()});
-  gsap.utils.toArray('#hero .rv').forEach((el,i)=>gsap.to(el,{opacity:1,y:0,duration:1.2,delay:.4+i*.25,ease:'power3.out'}));
-  if(!reduce)petals();
-};
+const HID='inset(-30% 100% -30% -10%)',SHOW='inset(-30% -10% -30% -10%)';
 
-// Scroll reveals (excluding hero, handled on open)
-gsap.utils.toArray('section:not(#hero) .rv').forEach(el=>
-  gsap.to(el,{opacity:1,y:0,duration:1,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 88%'}}));
-if(reduce)gsap.set('.rv',{opacity:1,y:0});
-
-// Falling petals
 function petals(){
   const mk=()=>{
+    if(document.hidden)return;
     const p=document.createElement('div');p.className='petal';document.body.appendChild(p);
-    const x=Math.random()*innerWidth,s=.6+Math.random()*.9;
-    gsap.set(p,{x,scale:s,rotation:Math.random()*360});
-    gsap.to(p,{y:innerHeight+60,x:x+(Math.random()*200-100),rotation:'+=360',duration:7+Math.random()*6,ease:'none',onComplete:()=>p.remove()});
+    const x=Math.random()*innerWidth,s=.6+Math.random();
+    gsap.set(p,{x,scale:s,rotation:Math.random()*360,transformPerspective:400});
+    gsap.to(p,{y:innerHeight+60,duration:8+Math.random()*6,ease:'none',onComplete:()=>{gsap.killTweensOf(p);p.remove()}});
+    gsap.to(p,{x:x+gsap.utils.random(-130,130),rotation:'+=200',rotationX:'+=360',duration:3+Math.random()*2,yoyo:true,repeat:-1,ease:'sine.inOut'});
   };
-  setInterval(mk,900);for(let i=0;i<6;i++)setTimeout(mk,i*300);
+  for(let i=0;i<5;i++)setTimeout(mk,i*350);setInterval(mk,1100);
 }
+function sparkles(){
+  const hs=$('#hero');
+  for(let i=0;i<26;i++){
+    const s=document.createElement('i'),z=2+Math.random()*4;s.className='sp';
+    s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*85}%;width:${z}px;height:${z}px`;
+    hs.insertBefore(s,hs.firstChild);
+    gsap.fromTo(s,{opacity:0,scale:.3},{opacity:.9,scale:1,duration:1+Math.random()*2,repeat:-1,yoyo:true,delay:Math.random()*3,ease:'sine.inOut'});
+    gsap.to(s,{y:'random(-40,40)',x:'random(-30,30)',duration:6+Math.random()*5,repeat:-1,yoyo:true,ease:'sine.inOut'});
+  }
+}
+function heroIn(){
+  $$('#hero .rv').forEach((el,i)=>{
+    const d=i*.45;
+    if(el.classList.contains('names')) gsap.to(el,{clipPath:SHOW,duration:1.8,delay:d,ease:'power2.inOut'});
+    else if(el.classList.contains('amp')) gsap.fromTo(el,{opacity:0,scale:.2,rotation:-25},{opacity:1,scale:1,rotation:0,y:0,duration:1.2,delay:d,ease:'back.out(2)'});
+    else gsap.to(el,{opacity:1,y:0,duration:1.2,delay:d,ease:'power3.out'});
+  });
+  sparkles();petals();
+}
+function init(){
+  // gate lotus bloom
+  $$('.lp').forEach((p,i)=>gsap.set(p,{svgOrigin:'60 92',rotation:[-64,64,-32,32,0][i]}));
+  gsap.from('.lp',{scale:0,opacity:0,duration:1.6,stagger:.18,ease:'back.out(1.6)'});
+  gsap.to('#lotus',{y:-8,duration:2.5,yoyo:true,repeat:-1,ease:'sine.inOut'});
+  gsap.from('#gc > :not(svg)',{y:24,opacity:0,stagger:.2,delay:.9,duration:1});
 
-// Countdown to 15 Nov 2026, 10:00 IST
-const target=new Date('2026-11-15T10:00:00+05:30').getTime();
-const cd=document.getElementById('cd');
-cd.innerHTML=['Days','Hours','Mins','Secs'].map(l=>`<div><div class="text-4xl sm:text-5xl font-light" data-u="${l}">0</div><div class="text-xs tracking-widest text-sand">${l.toUpperCase()}</div></div>`).join('');
+  // script names: handwriting wipe
+  const names=$$('.names.rv');
+  gsap.set(names,{opacity:1,y:0,clipPath:HID});
+  names.filter(e=>!e.closest('#hero')).forEach(el=>
+    gsap.to(el,{clipPath:SHOW,duration:1.8,ease:'power2.inOut',scrollTrigger:{trigger:el,start:'top 85%'}}));
+
+  // open: doors part, hero writes itself
+  $('#open').onclick=()=>{
+    play();
+    const tl=gsap.timeline({onComplete:()=>$('#gate').remove()});
+    tl.to('#gc',{opacity:0,scale:1.1,duration:.7,ease:'power2.in'})
+      .to('.door.l',{xPercent:-100,duration:1.4,ease:'power4.inOut'},.4)
+      .to('.door.r',{xPercent:100,duration:1.4,ease:'power4.inOut'},.4)
+      .add(heroIn,.9);
+  };
+
+  // scroll reveals, staggered in batches
+  ScrollTrigger.batch('section:not(#hero) .rv:not(.names)',{start:'top 90%',once:true,
+    onEnter:b=>gsap.to(b,{opacity:1,y:0,stagger:.14,duration:1,ease:'power3.out'})});
+  gsap.from('hr',{scaleX:0,duration:1.4,ease:'power2.out',scrollTrigger:{trigger:'hr',start:'top 92%'}});
+
+  // parallax + ambient motion
+  const st=(t,s='top top',e='bottom top')=>({trigger:t,start:s,end:e,scrub:true});
+  gsap.to('.wash',{yPercent:-35,ease:'none',scrollTrigger:st('#hero')});
+  gsap.to('.wash',{scale:1.1,transformOrigin:'50% 0',duration:9,yoyo:true,repeat:-1,ease:'sine.inOut'});
+  gsap.to('#hero svg',{yPercent:40,ease:'none',scrollTrigger:st('#hero')});
+  gsap.to('#hero > .relative',{yPercent:-12,opacity:.15,ease:'none',scrollTrigger:st('#hero')});
+  gsap.to('#bar',{scaleX:1,ease:'none',scrollTrigger:{start:0,end:'max',scrub:.3}});
+
+  if(hover){
+    $$('.card').forEach(c=>{
+      const rx=gsap.quickTo(c,'rotationX',{duration:.5}),ry=gsap.quickTo(c,'rotationY',{duration:.5});
+      gsap.set(c,{transformPerspective:700});
+      c.addEventListener('pointermove',e=>{const r=c.getBoundingClientRect();
+        ry(((e.clientX-r.left)/r.width-.5)*14);rx(-((e.clientY-r.top)/r.height-.5)*14)});
+      c.addEventListener('pointerleave',()=>{rx(0);ry(0)});
+    });
+    $$('.btn').forEach(b=>{
+      const x=gsap.quickTo(b,'x',{duration:.4}),y=gsap.quickTo(b,'y',{duration:.4});
+      b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect();
+        x((e.clientX-r.left-r.width/2)*.25);y((e.clientY-r.top-r.height/2)*.25)});
+      b.addEventListener('pointerleave',()=>{x(0);y(0)});
+    });
+  }
+}
+if(reduce){gsap.set('.rv',{opacity:1,y:0});$('#open').onclick=()=>{play();$('#gate').remove()}}else init();
+
+// Countdown to 15 Nov 2026, 10:00 IST, with flip on change
+const target=new Date('2026-11-15T10:00:00+05:30').getTime(),cd=$('#cd'),prev=[];
+cd.innerHTML=['Days','Hours','Mins','Secs'].map(l=>`<div><div class="text-4xl sm:text-5xl font-light" data-u>00</div><div class="text-xs tracking-widest text-sand">${l.toUpperCase()}</div></div>`).join('');
 function tick(){
-  let d=Math.max(0,target-Date.now());
+  const d=Math.max(0,target-Date.now());
   const v=[Math.floor(d/864e5),Math.floor(d%864e5/36e5),Math.floor(d%36e5/6e4),Math.floor(d%6e4/1e3)];
-  cd.querySelectorAll('[data-u]').forEach((e,i)=>e.textContent=String(v[i]).padStart(2,'0'));
+  cd.querySelectorAll('[data-u]').forEach((e,i)=>{
+    const s=String(v[i]).padStart(2,'0');if(prev[i]===s)return;
+    e.textContent=s;
+    if(prev[i]!==undefined&&!reduce)gsap.fromTo(e,{y:-14,opacity:0},{y:0,opacity:1,duration:.5,ease:'back.out(2)'});
+    prev[i]=s;
+  });
 }
 tick();setInterval(tick,1000);
 
 // Add to calendar (.ics)
-document.getElementById('ics').onclick=()=>{
+$('#ics').onclick=()=>{
   const ics=['BEGIN:VCALENDAR','VERSION:2.0','BEGIN:VEVENT','DTSTART:20261115T043000Z','DTEND:20261115T093000Z',
   'SUMMARY:Wedding of Athulya & Akshay','LOCATION:Sree Bhadra Auditorium\\, Arayankavu',
   'DESCRIPTION:Muhurtham 10.00 AM & 10.30 AM. Followed by lunch.','END:VEVENT','END:VCALENDAR'].join('\r\n');
