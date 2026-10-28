@@ -1,0 +1,23 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Athulya and Akshay//Wedding Invitation//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:athulya-akshay-wedding-20261115@akshayathulya.github.io
+DTSTAMP:20261028T000000Z
+DTSTART:20261115T043000Z
+DTEND:20261115T050000Z
+SUMMARY:Wedding of Athulya Asok and Akshay K Purushan
+LOCATION:Sree Bhadra Auditorium\, Arayankavu\, Kerala
+DESCRIPTION:Muhurtham 10:00-10:30 AM IST. Lunch follows.
+URL:https://akshayathulya.github.io/
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+TRIGGER:-PT24H
+ACTION:DISPLAY
+DESCRIPTION:Wedding tomorrow at 10:00 AM
+END:VALARM
+END:VEVENT
+END:VCALENDAR

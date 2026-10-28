@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Lotus monogram for Athulya and Akshay's wedding">
+  <defs>
+    <radialGradient id="paper" cx="50%" cy="28%" r="85%">
+      <stop offset="0%" stop-color="#fffdfb"/>
+      <stop offset="68%" stop-color="#fdf3f2"/>
+      <stop offset="100%" stop-color="#f9e4e4"/>
+    </radialGradient>
+    <linearGradient id="petal" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#f7b7c2"/>
+      <stop offset="55%" stop-color="#ef99aa"/>
+      <stop offset="100%" stop-color="#df7c92"/>
+    </linearGradient>
+    <linearGradient id="leaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9bbb72"/>
+      <stop offset="100%" stop-color="#6f8f53"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="14" fill="url(#paper)"/>
+  <rect x="2.2" y="2.2" width="59.6" height="59.6" rx="12.2" fill="none" stroke="#7c8f6b" stroke-width="1.1" opacity=".55"/>
+
+  <g transform="translate(32 36)">
+    <path d="M0 16C-8 15-16 10-19 4c8-1 15 3 19 12Z" fill="url(#leaf)" opacity=".95"/>
+    <path d="M0 16C8 15 16 10 19 4c-8-1-15 3-19 12Z" fill="url(#leaf)" opacity=".95"/>
+    <path d="M0 13C-14 10-21 2-22-7c9 1 17 7 22 20Z" fill="url(#petal)"/>
+    <path d="M0 13C14 10 21 2 22-7c-9 1-17 7-22 20Z" fill="url(#petal)"/>
+    <path d="M0 12C-10 5-12-7-6-18c7 7 9 19 6 30Z" fill="url(#petal)"/>
+    <path d="M0 12C10 5 12-7 6-18c-7 7-9 19-6 30Z" fill="url(#petal)"/>
+    <path d="M0 13C-5 4-4-10 0-21c4 11 5 25 0 34Z" fill="#dc758c"/>
+    <path d="M0 21c-2-4-2-9 0-13 2 4 2 9 0 13Z" fill="#7c8f6b" opacity=".55"/>
+  </g>
+</svg>
