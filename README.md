@@ -2,7 +2,7 @@
 
 A single-page wedding invitation for **Sunday, 15 November 2026** at **Sree Bhadra Auditorium, Arayankavu**, Kerala. Muhurtham 10:00–10:30 AM, followed by lunch.
 
-The page is built from the printed invitation in [`PDF.pdf`](PDF.pdf): the blush watercolour wash, lotus border, Ganapathi motif, and sage-and-taupe palette are taken directly from the card. No frameworks or build step are required.
+The page is built from the family’s printed invitation: the blush watercolour wash, lotus border, Ganapathi motif, and sage-and-taupe palette are taken directly from the card. No frameworks or build step are required.
 
 ## What is included
 
@@ -41,7 +41,6 @@ A local server is recommended so the web fonts, manifest, calendar file, and sha
 | `ceremony.ics` | Calendar event (10:00–10:30 AM IST) |
 | `manifest.webmanifest` | Installable web-app metadata |
 | `og-image.jpg` | Social sharing card (1200 × 630) |
-| `PDF.pdf` | Original printed invitation used as the design reference |
 
 ## Deployment
 
