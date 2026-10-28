@@ -10,7 +10,7 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* -------------------------------------------------------
-     Background music (opt-in; never autoplays)
+     Background music (starts automatically where allowed)
      ------------------------------------------------------- */
 
   var audio = document.getElementById("bgm");
@@ -20,6 +20,8 @@
   if (audio && musicToggle) {
     var musicLabel = musicToggle.querySelector(".music-toggle__label");
     var canPlayMp3 = audio.canPlayType && audio.canPlayType("audio/mpeg") !== "";
+    var userPaused = false;
+    var gestureEvents = ["click", "keydown", "touchend"];
 
     audio.volume = 0.35;
 
@@ -39,41 +41,111 @@
       }
     };
 
-    if (canPlayMp3) {
-      musicToggle.hidden = false;
-    }
+    var removeGestureListeners = function () {
+      gestureEvents.forEach(function (eventName) {
+        document.removeEventListener(eventName, startOnFirstGesture, true);
+      });
+    };
 
-    musicToggle.addEventListener("click", function () {
-      if (audio.paused) {
-        var playAttempt = audio.play();
-        if (playAttempt && typeof playAttempt.catch === "function") {
-          playAttempt.catch(function () {
-            setMusicState(false);
+    var playMusic = function (fromAutoplay) {
+      if (userPaused) return;
+
+      var playAttempt;
+      try {
+        playAttempt = audio.play();
+      } catch (error) {
+        if (musicStatus) {
+          musicStatus.textContent = "Background music could not start.";
+        }
+        return;
+      }
+
+      if (playAttempt && typeof playAttempt.catch === "function") {
+        playAttempt.catch(function (error) {
+          if (userPaused) return;
+
+          if (fromAutoplay && error && error.name === "NotAllowedError") {
             if (musicStatus) {
               musicStatus.textContent =
-                "The music could not start. Please try again.";
+                "Background music is ready. Tap the music button to play.";
             }
-          });
+            return;
+          }
+
+          setMusicState(false);
+          if (musicStatus) {
+            musicStatus.textContent = "Background music could not start.";
+          }
+        });
+      }
+    };
+
+    var startOnFirstGesture = function (event) {
+      if (userPaused) {
+        removeGestureListeners();
+        return;
+      }
+
+      if (
+        event.target &&
+        event.target.closest &&
+        event.target.closest("#music-toggle")
+      ) {
+        return;
+      }
+
+      playMusic(false);
+    };
+
+    if (canPlayMp3) {
+      musicToggle.hidden = false;
+
+      gestureEvents.forEach(function (eventName) {
+        document.addEventListener(eventName, startOnFirstGesture, true);
+      });
+
+      musicToggle.addEventListener("click", function () {
+        if (audio.paused) {
+          userPaused = false;
+          playMusic(false);
+        } else {
+          userPaused = true;
+          audio.pause();
         }
+      });
+
+      audio.addEventListener("play", function () {
+        removeGestureListeners();
+        setMusicState(true);
+      });
+
+      audio.addEventListener("pause", function () {
+        setMusicState(false);
+      });
+
+      audio.addEventListener("error", function () {
+        removeGestureListeners();
+        musicToggle.hidden = true;
+        if (musicStatus) {
+          musicStatus.textContent = "Background music is unavailable.";
+        }
+      });
+
+      /* Let the invitation paint first, then try to start the music.
+         If the browser blocks autoplay, the first tap, click, or key
+         press starts it instead. */
+      var startAutoplay = function () {
+        playMusic(true);
+      };
+
+      if ("requestIdleCallback" in window) {
+        window.requestIdleCallback(startAutoplay, { timeout: 2500 });
+      } else if (document.readyState === "complete") {
+        window.setTimeout(startAutoplay, 0);
       } else {
-        audio.pause();
+        window.addEventListener("load", startAutoplay, { once: true });
       }
-    });
-
-    audio.addEventListener("play", function () {
-      setMusicState(true);
-    });
-
-    audio.addEventListener("pause", function () {
-      setMusicState(false);
-    });
-
-    audio.addEventListener("error", function () {
-      musicToggle.hidden = true;
-      if (musicStatus) {
-        musicStatus.textContent = "Background music is unavailable.";
-      }
-    });
+    }
 
     /* Be considerate when the tab is in the background. */
     document.addEventListener("visibilitychange", function () {

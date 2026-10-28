@@ -12,7 +12,7 @@ The page is built from the printed invitation in [`PDF.pdf`](PDF.pdf): the blush
 - Google Maps directions and a scannable venue QR code
 - Calendar download (`ceremony.ics`) with a one-day reminder
 - WhatsApp RSVP, phone links, and a share button with native-share and clipboard fallbacks
-- Optional background music, off by default
+- Background music with a visible pause control
 - Custom favicon, Apple touch icon, PWA manifest, and 1200 × 630 social preview
 - Accessible markup, keyboard focus states, reduced-motion support, and a print stylesheet
 - Self-hosted fonts and images; no third-party scripts or CDNs
@@ -57,7 +57,7 @@ No build command, workflow, or package installation is needed.
 
 - The countdown target is `2026-11-15T10:00:00+05:30`.
 - The calendar file encodes the same moment in UTC (`04:30–05:00Z`).
-- The background track is not autoplayed; visitors choose whether to play it.
+- Music starts automatically where the browser allows it; if autoplay is blocked, it starts on the first tap, click, or key press. The floating control pauses it.
 - `prefers-reduced-motion` disables the falling petals and reveal transitions.
 - The print stylesheet produces a clean one-page invitation.
 

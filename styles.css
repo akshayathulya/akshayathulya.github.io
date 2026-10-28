@@ -1202,12 +1202,10 @@ button {
   }
 
   .detail--date {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    justify-content: center;
-    column-gap: 0.55rem;
-    row-gap: 0.15rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    column-gap: 0.3rem;
     padding-top: 0.6rem;
     text-align: center;
   }
@@ -1215,6 +1213,14 @@ button {
   .detail--date .detail__label {
     margin: 0;
     white-space: nowrap;
+  }
+
+  .detail--date .detail__label:first-of-type {
+    justify-self: end;
+  }
+
+  .detail--date .detail__label:last-of-type {
+    justify-self: start;
   }
 
   .detail--date .detail__day {
@@ -1400,13 +1406,13 @@ button {
   }
 
   .detail--date {
-    column-gap: 0.35rem;
+    column-gap: 0.28rem;
   }
 
   .detail--date .detail__label {
     font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-indent: 0.1em;
+    letter-spacing: 0.08em;
+    text-indent: 0.08em;
   }
 
   .detail--date .detail__day {
@@ -1421,6 +1427,18 @@ button {
   .detail__qr {
     width: 68px;
     height: 68px;
+  }
+}
+
+@media (max-width: 320px) {
+  .detail--date .detail__label {
+    font-size: 0.54rem;
+    letter-spacing: 0.05em;
+    text-indent: 0.05em;
+  }
+
+  .detail--date .detail__day {
+    font-size: 2.55rem;
   }
 }
 
