@@ -906,43 +906,10 @@ button {
   gap: 0.65rem;
 }
 
-.rsvp__contacts {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.15rem 2.6rem;
-  max-width: 36rem;
-  margin: 2.6rem auto 0;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--line-rose);
-}
-
-.rsvp__contacts p {
-  display: flex;
-  flex-direction: column;
-  gap: 0.15rem;
-  margin: 0;
-}
-
-.rsvp__contacts span {
-  color: var(--taupe);
-  font-size: 0.58rem;
-  font-weight: 500;
-  letter-spacing: 0.16em;
-  text-indent: 0.16em;
-  text-transform: uppercase;
-}
-
-.rsvp__contacts a {
-  color: var(--sage);
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  text-decoration: none;
-  transition: color 0.25s ease;
-}
-
-.rsvp__contacts a:hover {
-  color: var(--rose-ink);
+/* Keep the breathing room left by the removed contact block, so the RSVP
+   section closes like a page of its own before the footer begins. */
+.rsvp__inner {
+  padding-bottom: 6rem;
 }
 
 .rsvp__status {
@@ -1201,73 +1168,9 @@ button {
     background: linear-gradient(90deg, transparent, var(--line-rose) 22%, var(--line-rose) 78%, transparent);
   }
 
-  .detail--date {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    align-items: center;
-    column-gap: 0.3rem;
-    padding-top: 0.6rem;
-    text-align: center;
-  }
-
-  .detail--date .detail__label {
-    margin: 0;
-    white-space: nowrap;
-  }
-
-  .detail--date .detail__label:first-of-type {
-    justify-self: end;
-  }
-
-  .detail--date .detail__label:last-of-type {
-    justify-self: start;
-  }
-
-  .detail--date .detail__day {
-    margin: 0;
-    font-size: 2.95rem;
-    line-height: 1;
-  }
-
-  .detail--venue {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr);
-    grid-template-areas:
-      "qr name"
-      "qr place";
-    column-gap: 1.1rem;
-    align-items: center;
-    justify-items: start;
-    padding: 1.35rem 6%;
-    text-align: left;
-  }
-
-  .detail__qr-link {
-    grid-area: qr;
-  }
-
   .detail__qr {
     width: 76px;
     height: 76px;
-  }
-
-  .detail__venue-name {
-    grid-area: name;
-    align-self: end;
-    margin: 0;
-    font-size: 0.72rem;
-  }
-
-  .detail__place {
-    grid-area: place;
-    align-self: start;
-    margin: 0.1rem 0 0;
-    text-align: left;
-  }
-
-  .detail__qr-note {
-    max-width: 5.2rem;
-    line-height: 1.45;
   }
 
   .detail--time {
@@ -1376,10 +1279,8 @@ button {
     text-indent: 0.13em;
   }
 
-  .rsvp__contacts {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  .rsvp__inner {
+    padding-bottom: 9rem;
   }
 
   .music-toggle {
@@ -1403,10 +1304,6 @@ button {
 @media (max-width: 380px) {
   .hero__names {
     font-size: 3.65rem;
-  }
-
-  .detail--date {
-    column-gap: 0.28rem;
   }
 
   .detail--date .detail__label {
